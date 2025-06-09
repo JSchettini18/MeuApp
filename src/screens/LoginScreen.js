@@ -1,6 +1,6 @@
 // LoginScreen.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../../firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -11,16 +11,23 @@ export default function LoginScreen() {
   const navigation = useNavigation();
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      alert('Preencha todos os campos.');
+      return;
+    }
+
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      Alert.alert('Login realizado com sucesso!');
+      await signInWithEmailAndPassword(auth, email.trim(), password);
+      alert('Login realizado com sucesso!');
+      navigation.navigate('Home'); // ✅ envia para a tela Home
     } catch (error) {
-      Alert.alert('Erro ao fazer login', error.message);
+      console.log('Erro no login:', error);
+      alert('Erro ao fazer login: ' + error.message);
     }
   };
 
   return (
-<View style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
 
       <TextInput
@@ -41,8 +48,9 @@ export default function LoginScreen() {
       />
 
       <Button title="Entrar" onPress={handleLogin} />
-      <Button title="Criar conta" onPress={() => navigation.navigate('Cadastro')} />
-
+      <View style={{ marginTop: 10 }}>
+        <Button title="Criar conta" onPress={() => navigation.navigate('Cadastro')} />
+      </View>
     </View>
   );
 }

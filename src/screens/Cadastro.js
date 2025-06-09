@@ -1,26 +1,51 @@
 // screens/Cadastro.js
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { auth } from '../../firebaseConfig';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 export default function Cadastro() {
-  const [nome, setNome] = useState('');      
+  const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const handleCadastro = async () => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+  const navigation = useNavigation();
 
-     
+  useEffect(() => {
+    console.log('🟢 Tela Cadastro carregada');
+  }, []);
+
+  const handleCadastro = async () => {
+    console.log('📨 Dados recebidos para cadastro:');
+    console.log('Nome:', nome);
+    console.log('Email:', email);
+    console.log('Senha:', senha);
+
+    if (!nome || !email || !senha) {
+      alert('Erro: Todos os campos devem ser preenchidos.');
+      return;
+    }
+
+    if (senha.length < 6) {
+      alert('Erro: A senha precisa ter no mínimo 6 caracteres.');
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), senha);
+
       await updateProfile(userCredential.user, {
         displayName: nome,
       });
 
-      Alert.alert('Usuário cadastrado com sucesso!');
+      console.log('✅ Usuário criado:', userCredential.user);
+
+      alert('Usuário cadastrado com sucesso!');
+      navigation.navigate('Login');
     } catch (error) {
-      Alert.alert('Erro no cadastro', error.message);
+      console.log('❌ Erro ao cadastrar:', error);
+      alert('Erro no cadastro: ' + error.message);
     }
   };
 
@@ -28,29 +53,29 @@ export default function Cadastro() {
     <View style={styles.container}>
       <Text style={styles.title}>Cadastro</Text>
 
-     
       <TextInput
         style={styles.input}
         placeholder="Nome"
         value={nome}
-        onChangeText={setNome}
+        onChangeText={(text) => setNome(text)}
       />
-
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(text) => setEmail(text)}
         keyboardType="email-address"
         autoCapitalize="none"
+        autoCorrect={false}
       />
       <TextInput
         style={styles.input}
         placeholder="Senha"
         value={senha}
-        onChangeText={setSenha}
+        onChangeText={(text) => setSenha(text)}
         secureTextEntry
       />
+
       <Button title="Cadastrar" onPress={handleCadastro} />
     </View>
   );
