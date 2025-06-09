@@ -1,19 +1,25 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function CarCard({ carro }) {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.card}>
-      <Image source={{ uri: carro.imagem }} style={styles.image} />
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>{carro.nome}</Text>
-        <Text style={styles.subtitle}>{carro.descricao}</Text>
-        <Text style={styles.price}>R$ {carro.preco.toLocaleString('pt-BR')}</Text>
-        <Text style={styles.km}>{carro.km}</Text>
+    <TouchableOpacity onPress={() => navigation.navigate('Detalhes', { carro })}>
+      <View style={styles.card}>
+        <Image source={{ uri: carro.imagem }} style={styles.image} />
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{carro.nome}</Text>
+          <Text style={styles.subtitle}>{carro.descricao}</Text>
+          <Text style={styles.price}>R$ {carro.preco.toLocaleString('pt-BR')}</Text>
+          <Text style={styles.km}>{carro.km}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
+
 
 const styles = StyleSheet.create({
   card: {
@@ -46,7 +52,7 @@ const styles = StyleSheet.create({
   price: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#0a0',
+    color: '#009EA4',
   },
   km: {
     fontSize: 12,

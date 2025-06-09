@@ -76,7 +76,7 @@ export default function Cadastro() {
         secureTextEntry
       />
 
-      <Button title="Cadastrar" onPress={handleCadastro} />
+      <Button title="Cadastrar" onPress={handleCadastro} color="#00D3DB" />
     </View>
   );
 }

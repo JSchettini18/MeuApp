@@ -1,15 +1,27 @@
-// src/screens/HomeScreen.js
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 import { useCarros } from '../hooks/useCarros';
 import CarCard from '../components/CarCard';
+import { auth } from '../../firebaseConfig';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function HomeScreen() {
   const { carros, loading } = useCarros();
+  const [nomeUsuario, setNomeUsuario] = useState('');
+
+  // Atualiza o nome sempre que a tela ganha foco
+  useFocusEffect(
+    useCallback(() => {
+      const user = auth.currentUser;
+      if (user) {
+        setNomeUsuario(user.displayName || '');
+      }
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bem vindo, João</Text>
+      <Text style={styles.title}>Bem vindo, {nomeUsuario}</Text>
 
       {loading ? (
         <ActivityIndicator size="large" color="#000" />

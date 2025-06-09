@@ -47,9 +47,9 @@ export default function LoginScreen() {
         secureTextEntry
       />
 
-      <Button title="Entrar" onPress={handleLogin} />
+      <Button title="Entrar" onPress={handleLogin} color="#00D3DB"ß />
       <View style={{ marginTop: 10 }}>
-        <Button title="Criar conta" onPress={() => navigation.navigate('Cadastro')} />
+        <Button title="Criar conta" onPress={() => navigation.navigate('Cadastro')} color="#00D3DB"/>
       </View>
     </View>
   );
