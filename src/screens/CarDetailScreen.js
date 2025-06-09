@@ -9,7 +9,7 @@ export default function CarDetailScreen() {
 
   const handleWhatsApp = () => {
     const mensagem = `Olá! Tenho interesse no ${carro.nome} que vi no app.`;
-    const numero = '5561999999999'; // 🔁 Substitua pelo número real
+    const numero = '5561999999999'; 
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
     Linking.openURL(url);
   };

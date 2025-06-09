@@ -9,7 +9,7 @@ export default function HomeScreen() {
   const { carros, loading } = useCarros();
   const [nomeUsuario, setNomeUsuario] = useState('');
 
-  // Atualiza o nome sempre que a tela ganha foco
+  
   useFocusEffect(
     useCallback(() => {
       const user = auth.currentUser;

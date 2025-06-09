@@ -19,7 +19,7 @@ export default function LoginScreen() {
     try {
       await signInWithEmailAndPassword(auth, email.trim(), password);
       alert('Login realizado com sucesso!');
-      navigation.navigate('Home'); // ✅ envia para a tela Home
+      navigation.navigate('Home'); 
     } catch (error) {
       console.log('Erro no login:', error);
       alert('Erro ao fazer login: ' + error.message);
